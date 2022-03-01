@@ -91,7 +91,7 @@ const displaySearchResult = phones => {
             const showMoreBtn = document.getElementById("show-more-btn");
             showMoreBtn.style.display = "block";
             showMoreBtn.addEventListener("click", function () {
-                document.getElementById("show-more-btn").style.display = "none";
+                showMoreBtn.style.display = "none";
                 const remainingItems = phones.slice(20);
                 remainingItems?.forEach(phone => {
                     const div = document.createElement("div");
