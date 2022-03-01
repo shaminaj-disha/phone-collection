@@ -35,6 +35,7 @@ const searchPhone = async () => {
     else {
         document.getElementById("error-message").style.display = "none";
         document.getElementById("no-input").style.display = "none";
+        document.getElementById("no-result").style.display = "none";
         toggleSpinner("block");
         toggleSearchResult("none");
         togglePhoneDetails("none");
