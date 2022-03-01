@@ -98,7 +98,7 @@ const displaySearchResult = phones => {
                             <div class="card-body">
                                 <h5 class="card-title">Title: ${phone.phone_name}</h5>
                                 <p>Brand: ${phone.brand}</p>
-                                <button onclick="loadPhoneDetail('${phone.slug}')" type="button" class="btn btn-primary">Show Details</button>
+                                <a href="#phone-details"><button onclick="loadPhoneDetail('${phone.slug}')" type="button" class="btn btn-primary">Show Details</button></a>
                             </div>
                         </div>
                     `;
