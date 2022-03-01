@@ -86,7 +86,7 @@ const displaySearchResult = phones => {
             `;
                 searchResult.appendChild(div);
             });
-            //show more btn show and click
+            //show-more btn show and click
             const showMoreBtn = document.getElementById("show-more-btn");
             showMoreBtn.style.display = "block";
             showMoreBtn.addEventListener("click", function () {
