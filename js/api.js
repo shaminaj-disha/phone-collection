@@ -77,11 +77,53 @@ const displaySearchResult = phones => {
                         <h5 class="card-title">Title: ${phone.phone_name}</h5>
                         <p>Brand: ${phone.brand}</p>
                         <button onclick="loadPhoneDetail('${phone.slug}')" type="button" class="btn btn-primary">Show Details</button>
+                    </div>
                 </div>
-            </div>
             `;
                 searchResult.appendChild(div);
             });
+            const searchresultcontainer = document.getElementById("search-result-container");
+            const buttonDiv = document.createElement("div");
+            buttonDiv.classList.add("d-flex");
+            buttonDiv.classList.add("justify-content-center");
+            const showMorebutton = document.createElement("button");
+            showMorebutton.classList.add("btn");
+            showMorebutton.classList.add("btn-primary");
+            showMorebutton.classList.add("my-3");
+            showMorebutton.innerText = "Show More";
+            buttonDiv.appendChild(showMorebutton);
+            searchresultcontainer.appendChild(buttonDiv);
+            /* const showLessbutton = document.createElement("button");
+            showLessbutton.classList.add("btn");
+            showLessbutton.classList.add("btn-primary");
+            showLessbutton.classList.add("my-3");
+            showLessbutton.innerText = "Show Less";
+            buttonDiv.appendChild(showLessbutton);
+            searchresultcontainer.appendChild(buttonDiv);
+            showLessbutton.style.display = "none"; */
+            showMorebutton.onclick = function () {
+                showMorebutton.style.display = "none";
+                const remainingItems = phones.slice(20);
+                remainingItems?.forEach(phone => {
+                    const div = document.createElement("div");
+                    div.classList.add("col");
+                    div.innerHTML = `
+                    <div class="card h-100">
+                        <img src="${phone.image}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Title: ${phone.phone_name}</h5>
+                            <p>Brand: ${phone.brand}</p>
+                            <button onclick="loadPhoneDetail('${phone.slug}')" type="button" class="btn btn-primary">Show Details</button>
+                        </div>
+                    </div>
+                `;
+                    searchResult.appendChild(div);
+                });
+                /* showLessbutton.style.display = "block";
+                showLessbutton.onclick = function () {
+
+                } */
+            }
         }
         else {
             document.getElementById("no-result").style.display = "none";
@@ -134,8 +176,7 @@ const displayPhoneDetail = phone => {
     //     //console.log(key);
     // }
     if (phone.others) {
-        const otherskeys = Object.entries(phone.others);
-        console.log(otherskeys);
+        const keys = Object.keys(phone.others);
         div.innerHTML = `
         <div class="w-50 my-3 mx-auto">
             <img src="${phone.image}" class="card-img-top" alt="...">
@@ -148,7 +189,13 @@ const displayPhoneDetail = phone => {
             <p>Chipset: ${phone.mainFeatures.chipSet}</p>
             <p>Memory: ${phone.mainFeatures.memory}</p>
             <p>Sensors: ${phone.mainFeatures.sensors}</p>
-            <p>Others: ${otherskeys}</p>
+            <p>Others:</p>
+            <p>${keys[0]}: ${phone.others[keys[0]]}</p>
+            <p>${keys[1]}: ${phone.others[keys[1]]}</p>
+            <p>${keys[2]}: ${phone.others[keys[2]]}</p>
+            <p>${keys[3]}: ${phone.others[keys[3]]}</p>
+            <p>${keys[4]}: ${phone.others[keys[4]]}</p>
+            <p>${keys[5]}: ${phone.others[keys[5]]}</p>
             <p>Release Date: ${phone.releaseDate ? phone.releaseDate : "No release date found"}</p>
         </div>
     `;
