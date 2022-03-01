@@ -87,11 +87,12 @@ const displaySearchResult = phones => {
             `;
                 searchResult.appendChild(div);
             });
-            //show-more btn show and click
-            const showMoreBtn = document.getElementById("show-more-btn");
-            showMoreBtn.style.display = "block";
-            showMoreBtn.addEventListener("click", function () {
-                showMoreBtn.style.display = "none";
+            //show-all btn show and click
+            const showAllBtn = document.getElementById("show-more-btn");
+            showAllBtn.style.display = "block";
+            //onclick
+            showAllBtn.addEventListener("click", function () {
+                showAllBtn.style.display = "none";
                 const remainingItems = phones.slice(20);
                 remainingItems?.forEach(phone => {
                     const div = document.createElement("div");
