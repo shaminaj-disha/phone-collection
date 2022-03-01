@@ -1,6 +1,3 @@
-document.getElementById("error-message").style.display = "none";
-document.getElementById("no-input").style.display = "none";
-document.getElementById("no-result").style.display = "none";
 //toggleSpinner function
 const toggleSpinner = displayStyle => {
     document.getElementById("loading-spinner").style.display = displayStyle;
@@ -80,7 +77,7 @@ const displaySearchResult = phones => {
                     <div class="card-body">
                         <h5 class="card-title">Title: ${phone.phone_name}</h5>
                         <p>Brand: ${phone.brand}</p>
-                        <button onclick="loadPhoneDetail('${phone.slug}')" type="button" class="btn btn-primary">Show Details</button>
+                        <a href="#phone-details"><button onclick="loadPhoneDetail('${phone.slug}')" type="button" class="btn btn-primary">Show Details</button></a>
                     </div>
                 </div>
             `;
@@ -122,7 +119,7 @@ const displaySearchResult = phones => {
                     <div class="card-body">
                         <h5 class="card-title">Title: ${phone.phone_name}</h5>
                         <p>Brand: ${phone.brand}</p>
-                        <button onclick="loadPhoneDetail('${phone.slug}')" type="button" class="btn btn-primary">Show Details</button>
+                        <a href="#phone-details"><button onclick="loadPhoneDetail('${phone.slug}')" type="button" class="btn btn-primary">Show Details</button></a>
                 </div>
             </div>
             `;
