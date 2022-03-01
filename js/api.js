@@ -24,6 +24,7 @@ const searchPhone = async () => {
     const lowerSearchText = searchText.toLowerCase();
     //clear field
     searchField.value = "";
+    //when search is empty
     if (searchText == "") {
         document.getElementById("search-result").textContent = "";
         document.getElementById("phone-details").textContent = "";
@@ -32,6 +33,7 @@ const searchPhone = async () => {
         document.getElementById("no-input").style.display = "block";
         toggleSpinner("none");
     }
+    //when search is not empty fetch data
     else {
         document.getElementById("error-message").style.display = "none";
         document.getElementById("no-input").style.display = "none";
@@ -44,7 +46,6 @@ const searchPhone = async () => {
         try {
             const response = await fetch(url);
             const data = await response.json();
-            //console.log(data.data.length);
             displaySearchResult(data.data);
         }
         catch (error) {
@@ -60,13 +61,15 @@ const displaySearchResult = phones => {
     const searchResult = document.getElementById("search-result");
     searchResult.textContent = "";
     document.getElementById("phone-details").textContent = "";
+    //when no result found
     if (phones.length == 0) {
         document.getElementById("no-result").style.display = "block";
+        document.getElementById("show-more-btn").style.display = "none";
     }
     else {
-        if (phones.length >= 20) {
+        //when searched items are more than 20
+        if (phones.length > 20) {
             const slicedItems = phones.slice(0, 20);
-            //console.log(slicedItems);
             document.getElementById("no-result").style.display = "none";
             slicedItems?.forEach(phone => {
                 const div = document.createElement("div");
@@ -83,50 +86,32 @@ const displaySearchResult = phones => {
             `;
                 searchResult.appendChild(div);
             });
-            const searchresultcontainer = document.getElementById("search-result-container");
-            const buttonDiv = document.createElement("div");
-            buttonDiv.classList.add("d-flex");
-            buttonDiv.classList.add("justify-content-center");
-            const showMorebutton = document.createElement("button");
-            showMorebutton.classList.add("btn");
-            showMorebutton.classList.add("btn-primary");
-            showMorebutton.classList.add("my-3");
-            showMorebutton.innerText = "Show More";
-            buttonDiv.appendChild(showMorebutton);
-            searchresultcontainer.appendChild(buttonDiv);
-            /* const showLessbutton = document.createElement("button");
-            showLessbutton.classList.add("btn");
-            showLessbutton.classList.add("btn-primary");
-            showLessbutton.classList.add("my-3");
-            showLessbutton.innerText = "Show Less";
-            buttonDiv.appendChild(showLessbutton);
-            searchresultcontainer.appendChild(buttonDiv);
-            showLessbutton.style.display = "none"; */
-            showMorebutton.onclick = function () {
-                showMorebutton.style.display = "none";
+            //show more btn show and click
+            const showMoreBtn = document.getElementById("show-more-btn");
+            showMoreBtn.style.display = "block";
+            showMoreBtn.addEventListener("click", function () {
+                document.getElementById("show-more-btn").style.display = "none";
                 const remainingItems = phones.slice(20);
                 remainingItems?.forEach(phone => {
                     const div = document.createElement("div");
                     div.classList.add("col");
                     div.innerHTML = `
-                    <div class="card h-100">
-                        <img src="${phone.image}" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Title: ${phone.phone_name}</h5>
-                            <p>Brand: ${phone.brand}</p>
-                            <button onclick="loadPhoneDetail('${phone.slug}')" type="button" class="btn btn-primary">Show Details</button>
+                        <div class="card h-100">
+                            <img src="${phone.image}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Title: ${phone.phone_name}</h5>
+                                <p>Brand: ${phone.brand}</p>
+                                <button onclick="loadPhoneDetail('${phone.slug}')" type="button" class="btn btn-primary">Show Details</button>
+                            </div>
                         </div>
-                    </div>
-                `;
+                    `;
                     searchResult.appendChild(div);
                 });
-                /* showLessbutton.style.display = "block";
-                showLessbutton.onclick = function () {
-
-                } */
-            }
+            })
         }
+        //when searched items are less than or equal than 20
         else {
+            document.getElementById("show-more-btn").style.display = "none";
             document.getElementById("no-result").style.display = "none";
             phones?.forEach(phone => {
                 const div = document.createElement("div");
@@ -150,13 +135,11 @@ const displaySearchResult = phones => {
 }
 //loadPhoneDetail function
 const loadPhoneDetail = async phoneId => {
-    //console.log(phoneId);
     document.getElementById("error-message").style.display = "none";
     const url = `https://openapi.programming-hero.com/api/phone/${phoneId}`;
     try {
         const res = await fetch(url);
         const data = await res.json();
-        //console.log(data.data);
         displayPhoneDetail(data.data);
     }
     catch (error) {
@@ -168,14 +151,11 @@ const loadPhoneDetail = async phoneId => {
 }
 // displayPhoneDetail function
 const displayPhoneDetail = phone => {
-    console.log(phone.others);
     const phoneDetails = document.getElementById("phone-details");
     phoneDetails.textContent = "";
     const div = document.createElement("div");
     div.classList.add("card");
-    // for (const key in phone.others) {
-    //     //console.log(key);
-    // }
+    //when there is 'others' property present
     if (phone.others) {
         const keys = Object.keys(phone.others);
         div.innerHTML = `
@@ -201,8 +181,7 @@ const displayPhoneDetail = phone => {
         </div>
     `;
     }
-    //console.log(otherskeys);
-
+    //when there is no 'others' property present
     else {
         div.innerHTML = `
         <div class="w-50 my-3 mx-auto">
