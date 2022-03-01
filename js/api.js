@@ -154,6 +154,7 @@ const displayPhoneDetail = phone => {
     const phoneDetails = document.getElementById("phone-details");
     phoneDetails.textContent = "";
     const sensorsArray = phone.mainFeatures.sensors;
+    //join array
     const joinedsensorsArray = sensorsArray.join(", ");
     const div = document.createElement("div");
     div.classList.add("card");
