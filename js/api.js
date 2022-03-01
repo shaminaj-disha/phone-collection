@@ -16,6 +16,7 @@ const togglePhoneDetails = displayStyle => {
 }
 //searchPhone function
 const searchPhone = async () => {
+    document.getElementById("cover-image").style.display = "none";
     const searchField = document.getElementById("search-field");
     const searchText = searchField.value;
     const lowerSearchText = searchText.toLowerCase();
@@ -50,6 +51,8 @@ const searchPhone = async () => {
             displayError();
             toggleSearchResult(none);
             togglePhoneDetails(none);
+            document.getElementById("no-result").style.display = "none";
+            document.getElementById("no-input").style.display = "none";
         }
     }
 }
@@ -144,6 +147,8 @@ const loadPhoneDetail = async phoneId => {
         displayError();
         toggleSearchResult(none);
         togglePhoneDetails(none);
+        document.getElementById("no-result").style.display = "none";
+        document.getElementById("no-input").style.display = "none";
     }
 }
 // displayPhoneDetail function
@@ -195,7 +200,7 @@ const displayPhoneDetail = phone => {
             <p>Chipset: ${phone.mainFeatures.chipSet}</p>
             <p>Memory: ${phone.mainFeatures.memory}</p>
             <p>Sensors: ${joinedsensorsArray}</p>
-            <p>Others: Not defined</p>
+            <p>Others: Not available</p>
             <p>Release Date: ${phone.releaseDate ? phone.releaseDate : "No release date found"}</p>
         </div>
     `;
