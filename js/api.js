@@ -93,8 +93,8 @@ const displaySearchResult = phones => {
             //onclick
             showAllBtn.addEventListener("click", function () {
                 showAllBtn.style.display = "none";
-                const remainingItems = phones.slice(20);
-                remainingItems?.forEach(phone => {
+                searchResult.textContent = "";
+                phones?.forEach(phone => {
                     const div = document.createElement("div");
                     div.classList.add("col");
                     div.innerHTML = `
@@ -109,6 +109,27 @@ const displaySearchResult = phones => {
                     `;
                     searchResult.appendChild(div);
                 });
+                /* const showLessBtn = document.getElementById("show-less-btn").style.display = "block";
+                showLessBtn.addEventListener("click", function () {
+                    showLessBtn.style.display = "none";
+                    searchResult.textContent = "";
+                    slicedItems?.forEach(phone => {
+                        const div = document.createElement("div");
+                        div.classList.add("col");
+                        div.innerHTML = `
+                        <div class="card h-100">
+                            <img src="${phone.image}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Title: ${phone.phone_name}</h5>
+                                <p>Brand: ${phone.brand}</p>
+                                <button onclick="loadPhoneDetail('${phone.slug}')" type="button" class="btn btn-primary">Show Details</button>
+                            </div>
+                        </div>
+                    `;
+                        searchResult.appendChild(div);
+                    });
+                    showAllBtn.style.display = "block";
+                }) */
             })
         }
         //when searched items are less than or equal than 20
