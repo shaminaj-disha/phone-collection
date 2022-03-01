@@ -153,6 +153,8 @@ const loadPhoneDetail = async phoneId => {
 const displayPhoneDetail = phone => {
     const phoneDetails = document.getElementById("phone-details");
     phoneDetails.textContent = "";
+    const sensorsArray = phone.mainFeatures.sensors;
+    const joinedsensorsArray = sensorsArray.join(", ");
     const div = document.createElement("div");
     div.classList.add("card");
     //when there is 'others' property present
@@ -169,7 +171,7 @@ const displayPhoneDetail = phone => {
             <p>Display Size: ${phone.mainFeatures.displaySize}</p>
             <p>Chipset: ${phone.mainFeatures.chipSet}</p>
             <p>Memory: ${phone.mainFeatures.memory}</p>
-            <p>Sensors: ${phone.mainFeatures.sensors}</p>
+            <p>Sensors: ${joinedsensorsArray}</p>
             <p>Others:</p>
             <p>${keys[0]}: ${phone.others[keys[0]]}</p>
             <p>${keys[1]}: ${phone.others[keys[1]]}</p>
@@ -194,7 +196,7 @@ const displayPhoneDetail = phone => {
             <p>Display Size: ${phone.mainFeatures.displaySize}</p>
             <p>Chipset: ${phone.mainFeatures.chipSet}</p>
             <p>Memory: ${phone.mainFeatures.memory}</p>
-            <p>Sensors: ${phone.mainFeatures.sensors}</p>
+            <p>Sensors: ${joinedsensorsArray}</p>
             <p>Others: Not defined</p>
             <p>Release Date: ${phone.releaseDate ? phone.releaseDate : "No release date found"}</p>
         </div>
