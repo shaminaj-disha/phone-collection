@@ -197,5 +197,6 @@ const displayPhoneDetail = phone => {
     `;
         phoneDetails.appendChild(div);
     }
+    window.scrollTo(0, 0);
     togglePhoneDetails("block");
 }
