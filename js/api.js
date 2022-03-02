@@ -4,6 +4,11 @@ const toggleSpinner = displayStyle => {
 }
 //displayError function
 const displayError = () => {
+    toggleSearchResult("none");
+    togglePhoneDetails("none");
+    toggleSpinner("none");
+    document.getElementById("no-result").style.display = "none";
+    document.getElementById("no-input").style.display = "none";
     document.getElementById("error-message").style.display = "block";
 }
 // toggleSearchResult function
@@ -50,10 +55,6 @@ const searchPhone = async () => {
         catch (error) {
             console.log(error);
             displayError();
-            toggleSearchResult(none);
-            togglePhoneDetails(none);
-            document.getElementById("no-result").style.display = "none";
-            document.getElementById("no-input").style.display = "none";
         }
     }
 }
@@ -168,10 +169,6 @@ const loadPhoneDetail = async phoneId => {
     catch (error) {
         console.log(error);
         displayError();
-        toggleSearchResult(none);
-        togglePhoneDetails(none);
-        document.getElementById("no-result").style.display = "none";
-        document.getElementById("no-input").style.display = "none";
     }
 }
 // displayPhoneDetail function
