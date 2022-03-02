@@ -73,8 +73,9 @@ const searchPhone = async () => {
         document.getElementById("error-message").style.display = "none";
         document.getElementById("no-result").style.display = "none";
         document.getElementById("show-more-btn").style.display = "none";
-        document.getElementById("no-input").style.display = "block";
+        document.getElementById("show-less-btn").style.display = "none";
         toggleSpinner("none");
+        document.getElementById("no-input").style.display = "block";
     }
     //when search is not empty fetch data
     else {
@@ -106,6 +107,7 @@ const displaySearchResult = phones => {
     if (phones.length == 0) {
         document.getElementById("no-result").style.display = "block";
         document.getElementById("show-more-btn").style.display = "none";
+        document.getElementById("show-less-btn").style.display = "none";
     }
     else {
         //when searched items are more than 20
@@ -114,39 +116,28 @@ const displaySearchResult = phones => {
             document.getElementById("no-result").style.display = "none";
             searchResultsInnerHTML(slicedItems, searchResult);
             //show-all btn show and click
+            document.getElementById("show-less-btn").style.display = "none";
             const showAllBtn = document.getElementById("show-more-btn");
+            const showLessBtn = document.getElementById("show-less-btn");
             showAllBtn.style.display = "block";
             //onclick
             showAllBtn.addEventListener("click", function () {
                 showAllBtn.style.display = "none";
                 searchResult.textContent = "";
                 searchResultsInnerHTML(phones, searchResult);
-                /* const showLessBtn = document.getElementById("show-less-btn").style.display = "block";
-                showLessBtn.addEventListener("click", function () {
-                    showLessBtn.style.display = "none";
-                    searchResult.textContent = "";
-                    slicedItems?.forEach(phone => {
-                        const div = document.createElement("div");
-                        div.classList.add("col");
-                        div.innerHTML = `
-                        <div class="card h-100">
-                            <img src="${phone.image}" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Title: ${phone.phone_name}</h5>
-                                <p>Brand: ${phone.brand}</p>
-                                <button onclick="loadPhoneDetail('${phone.slug}')" type="button" class="btn btn-primary">Show Details</button>
-                            </div>
-                        </div>
-                    `;
-                        searchResult.appendChild(div);
-                    });
-                    showAllBtn.style.display = "block";
-                }) */
+                showLessBtn.style.display = "block";
+            })
+            showLessBtn.addEventListener("click", function () {
+                showLessBtn.style.display = "none";
+                searchResult.textContent = "";
+                searchResultsInnerHTML(slicedItems, searchResult);
+                showAllBtn.style.display = "block";
             })
         }
         //when searched items are less than or equal than 20
         else {
             document.getElementById("show-more-btn").style.display = "none";
+            document.getElementById("show-less-btn").style.display = "none";
             document.getElementById("no-result").style.display = "none";
             searchResultsInnerHTML(phones, searchResult);
         }
