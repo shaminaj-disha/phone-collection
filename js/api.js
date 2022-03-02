@@ -19,6 +19,45 @@ const toggleSearchResult = displayStyle => {
 const togglePhoneDetails = displayStyle => {
     document.getElementById("phone-details").style.display = displayStyle;
 }
+//searchResultsInnerHTML function
+const searchResultsInnerHTML = (items, searchResult) => {
+    items?.forEach(phone => {
+        const div = document.createElement("div");
+        div.classList.add("col");
+        div.innerHTML = `
+        <div class="card h-100">
+            <img src="${phone.image}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Title: ${phone.phone_name}</h5>
+                <p>Brand: ${phone.brand}</p>
+                <button onclick="loadPhoneDetail('${phone.slug}')" type="button" class="btn btn-primary">Show Details</button>
+            </div>
+        </div>
+    `;
+        searchResult.appendChild(div);
+    });
+}
+//phonDetailsInnerHTML function
+const phonDetailsInnerHTML = (phone, joinedsensorsArray, phoneDetails) => {
+    const div = document.createElement("div");
+    div.classList.add("card");
+    div.innerHTML = `
+        <div class="w-50 my-3 mx-auto">
+            <img src="${phone.image}" class="card-img-top" alt="...">
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Title: ${phone.name}</h5>
+            <p>Brand: ${phone.brand}</p>
+            <p>Release Date: ${phone.releaseDate ? phone.releaseDate : "No release date found"}</p>
+            <p>Storage: ${phone.mainFeatures.storage}</p>
+            <p>Display Size: ${phone.mainFeatures.displaySize}</p>
+            <p>Chipset: ${phone.mainFeatures.chipSet}</p>
+            <p>Memory: ${phone.mainFeatures.memory}</p>
+            <p>Sensors: ${joinedsensorsArray}</p>
+        </div>
+    `;
+    phoneDetails.appendChild(div);
+}
 //searchPhone function
 const searchPhone = async () => {
     document.getElementById("cover-image").style.display = "none";
@@ -73,21 +112,7 @@ const displaySearchResult = phones => {
         if (phones.length > 20) {
             const slicedItems = phones.slice(0, 20);
             document.getElementById("no-result").style.display = "none";
-            slicedItems?.forEach(phone => {
-                const div = document.createElement("div");
-                div.classList.add("col");
-                div.innerHTML = `
-                <div class="card h-100">
-                    <img src="${phone.image}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Title: ${phone.phone_name}</h5>
-                        <p>Brand: ${phone.brand}</p>
-                        <button onclick="loadPhoneDetail('${phone.slug}')" type="button" class="btn btn-primary">Show Details</button>
-                    </div>
-                </div>
-            `;
-                searchResult.appendChild(div);
-            });
+            searchResultsInnerHTML(slicedItems, searchResult);
             //show-all btn show and click
             const showAllBtn = document.getElementById("show-more-btn");
             showAllBtn.style.display = "block";
@@ -95,21 +120,7 @@ const displaySearchResult = phones => {
             showAllBtn.addEventListener("click", function () {
                 showAllBtn.style.display = "none";
                 searchResult.textContent = "";
-                phones?.forEach(phone => {
-                    const div = document.createElement("div");
-                    div.classList.add("col");
-                    div.innerHTML = `
-                        <div class="card h-100">
-                            <img src="${phone.image}" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Title: ${phone.phone_name}</h5>
-                                <p>Brand: ${phone.brand}</p>
-                                <button onclick="loadPhoneDetail('${phone.slug}')" type="button" class="btn btn-primary">Show Details</button>
-                            </div>
-                        </div>
-                    `;
-                    searchResult.appendChild(div);
-                });
+                searchResultsInnerHTML(phones, searchResult);
                 /* const showLessBtn = document.getElementById("show-less-btn").style.display = "block";
                 showLessBtn.addEventListener("click", function () {
                     showLessBtn.style.display = "none";
@@ -137,21 +148,7 @@ const displaySearchResult = phones => {
         else {
             document.getElementById("show-more-btn").style.display = "none";
             document.getElementById("no-result").style.display = "none";
-            phones?.forEach(phone => {
-                const div = document.createElement("div");
-                div.classList.add("col");
-                div.innerHTML = `
-                <div class="card h-100">
-                    <img src="${phone.image}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Title: ${phone.phone_name}</h5>
-                        <p>Brand: ${phone.brand}</p>
-                        <button onclick="loadPhoneDetail('${phone.slug}')" type="button" class="btn btn-primary">Show Details</button>
-                </div>
-            </div>
-            `;
-                searchResult.appendChild(div);
-            });
+            searchResultsInnerHTML(phones, searchResult);
         }
     }
     toggleSpinner("none");
@@ -178,23 +175,14 @@ const displayPhoneDetail = phone => {
     const sensorsArray = phone.mainFeatures.sensors;
     //join array
     const joinedsensorsArray = sensorsArray.join(", ");
-    const div = document.createElement("div");
-    div.classList.add("card");
     //when there is 'others' property present
     if (phone.others) {
         const keys = Object.keys(phone.others);
+        phonDetailsInnerHTML(phone, joinedsensorsArray, phoneDetails);
+        const div = document.createElement("div");
+        div.classList.add("card");
         div.innerHTML = `
-        <div class="w-50 my-3 mx-auto">
-            <img src="${phone.image}" class="card-img-top" alt="...">
-        </div>
         <div class="card-body">
-            <h5 class="card-title">Title: ${phone.name}</h5>
-            <p>Brand: ${phone.brand}</p>
-            <p>Storage: ${phone.mainFeatures.storage}</p>
-            <p>Display Size: ${phone.mainFeatures.displaySize}</p>
-            <p>Chipset: ${phone.mainFeatures.chipSet}</p>
-            <p>Memory: ${phone.mainFeatures.memory}</p>
-            <p>Sensors: ${joinedsensorsArray}</p>
             <p>Others:</p>
             <p>${keys[0]}: ${phone.others[keys[0]]}</p>
             <p>${keys[1]}: ${phone.others[keys[1]]}</p>
@@ -202,29 +190,21 @@ const displayPhoneDetail = phone => {
             <p>${keys[3]}: ${phone.others[keys[3]]}</p>
             <p>${keys[4]}: ${phone.others[keys[4]]}</p>
             <p>${keys[5]}: ${phone.others[keys[5]]}</p>
-            <p>Release Date: ${phone.releaseDate ? phone.releaseDate : "No release date found"}</p>
         </div>
     `;
+        phoneDetails.appendChild(div);
     }
     //when there is no 'others' property present
     else {
+        phonDetailsInnerHTML(phone, joinedsensorsArray, phoneDetails);
+        const div = document.createElement("div");
+        div.classList.add("card");
         div.innerHTML = `
-        <div class="w-50 my-3 mx-auto">
-            <img src="${phone.image}" class="card-img-top" alt="...">
-        </div>
         <div class="card-body">
-            <h5 class="card-title">Title: ${phone.name}</h5>
-            <p>Brand: ${phone.brand}</p>
-            <p>Storage: ${phone.mainFeatures.storage}</p>
-            <p>Display Size: ${phone.mainFeatures.displaySize}</p>
-            <p>Chipset: ${phone.mainFeatures.chipSet}</p>
-            <p>Memory: ${phone.mainFeatures.memory}</p>
-            <p>Sensors: ${joinedsensorsArray}</p>
             <p>Others: Not available</p>
-            <p>Release Date: ${phone.releaseDate ? phone.releaseDate : "No release date found"}</p>
         </div>
     `;
+        phoneDetails.appendChild(div);
     }
-    phoneDetails.appendChild(div);
     togglePhoneDetails("block");
 }
